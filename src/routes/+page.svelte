@@ -5,36 +5,94 @@
     { name: "BBQ Bacon Burger", priceSolo: "€7.49", priceMenu: "€10.49", description: "Smoky BBQ sauce, crispy bacon, and cheddar cheese." },
   ];
 
-  let image = "/commercial4.jpg"; // Single image
+  let image = "/burger_4.jpg";
 </script>
 
-<div class="flex flex-row h-screen w-full bg-white text-black">
+<style>
+  .container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    background: white;
+    color: black;
+    overflow: hidden;
+  }
+
+  .left {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+  }
+
+  .left img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+  }
+
+  .right {
+    width: 60%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid gray;
+    padding: 15px 0;
+  }
+
+  .menu-title {
+    flex: 2;
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+
+  .menu-prices {
+    flex: 1;
+    text-align: right;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .menu-prices span {
+    display: block;
+    margin-bottom: 5px;
+  }
+</style>
+
+<div class="container">
   <!-- Left Side: Image -->
-  <div class="w-1/2 h-full flex items-center justify-center bg-gray-100">
-    <img src={image} alt="Menu Image" class="h-auto w-full max-h-full object-cover rounded-lg shadow-lg">
+  <div class="left">
+    <img src={image} alt="Menu Image">
   </div>
 
   <!-- Right Side: Menu List -->
-  <div class="w-1/2 h-full p-6 flex flex-col justify-center">
-    <h1 class="text-4xl font-bold mb-4 text-center">Burger Menu</h1>
-
-    <!-- Menu Table -->
-    <div class="bg-gray-200 p-4 rounded-lg shadow-lg">
-      <!-- Table Header -->
-      <div class="grid grid-cols-3 font-bold text-lg border-b pb-2">
-        <span class="text-left">Burger</span>
-        <span class="text-center">Solo</span>
-        <span class="text-right">Menu</span>
+  <div class="right">
+    <!-- Table Header -->
+    <div class="menu-item">
+      <div class="menu-title">Burger</div>
+      <div class="menu-prices">
+        <span style="color: blue;">Solo</span>
+        <span style="color: red;">Menu</span>
       </div>
-
-      <!-- Menu Items -->
-      {#each menuItems as item}
-        <div class="grid grid-cols-3 py-3 border-b last:border-none">
-          <span class="text-left">{item.name}</span>
-          <span class="text-center">{item.priceSolo}</span>
-          <span class="text-right">{item.priceMenu}</span>
-        </div>
-      {/each}
     </div>
+
+    <!-- Menu Items -->
+    {#each menuItems as item}
+      <div class="menu-item">
+        <div class="menu-title">{item.name}</div>
+        <div class="menu-prices">
+          <span>{item.priceSolo}</span>
+          <span>{item.priceMenu}</span>
+        </div>
+      </div>
+    {/each}
   </div>
 </div>
