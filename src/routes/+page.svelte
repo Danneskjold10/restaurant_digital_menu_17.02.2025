@@ -5,30 +5,34 @@
     { name: "BBQ Bacon Burger", priceSolo: "€7.49", priceMenu: "€10.49", description: "Smoky BBQ sauce, crispy bacon, and cheddar cheese." },
   ];
 
-  let images = ["/burger_4.jpg", "/sandwich_1.jpg", "/burger_1.jpg"];
-  let currentImageIndex = 0;
-
-  function changeImage() {
-    currentImageIndex = (currentImageIndex + 1) % images.length;
-  }
-
-  setInterval(changeImage, 3000); // Change image every 3 seconds
+  let image = "/burger_4.jpg"; // Single image
 </script>
 
-<div class="min-h-screen bg-white text-black p-6 text-center flex flex-col items-center justify-center">
-  <img src={images[currentImageIndex]} alt="Menu Header" class="w-full max-h-60 object-cover rounded-lg mb-6 transition-opacity duration-500 ease-in-out">
-  
-  <div class="w-full max-w-md mx-auto">
-    <h1 class="text-3xl md:text-4xl font-bold mb-4">Burger Menu</h1>
-    <div class="flex flex-col gap-4">
+<div class="flex h-screen w-full bg-white text-black">
+  <!-- Left Side: Image -->
+  <div class="w-1/2 h-full flex items-center justify-center bg-gray-100">
+    <img src={image} alt="Menu Image" class="max-h-full w-auto object-cover rounded-lg shadow-lg">
+  </div>
+
+  <!-- Right Side: Menu List -->
+  <div class="w-1/2 p-8 flex flex-col justify-center">
+    <h1 class="text-4xl font-bold mb-6 text-center">Burger Menu</h1>
+
+    <!-- Menu Table -->
+    <div class="bg-gray-200 p-6 rounded-lg shadow-lg">
+      <!-- Table Header -->
+      <div class="grid grid-cols-3 font-bold text-lg border-b pb-2">
+        <span class="text-left">Burger</span>
+        <span class="text-center">Solo Price</span>
+        <span class="text-right">Menu Price</span>
+      </div>
+
+      <!-- Menu Items -->
       {#each menuItems as item}
-        <div class="bg-gray-200 p-4 rounded-lg shadow-lg menu-item">
-          <h2 class="text-xl font-semibold">{item.name}</h2>
-          <p class="text-gray-600">{item.description}</p>
-          <div class="mt-2 flex justify-between">
-            <span class="text-lg font-bold">Solo: {item.priceSolo}</span>
-            <span class="text-lg font-bold">Menu: {item.priceMenu}</span>
-          </div>
+        <div class="grid grid-cols-3 py-4 border-b last:border-none">
+          <span class="text-left">{item.name}</span>
+          <span class="text-center">{item.priceSolo}</span>
+          <span class="text-right">{item.priceMenu}</span>
         </div>
       {/each}
     </div>
