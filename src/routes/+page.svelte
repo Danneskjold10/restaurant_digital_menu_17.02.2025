@@ -15,16 +15,15 @@
   setInterval(changeImage, 3000); // Change image every 3 seconds
 </script>
 
-<div class="min-h-screen bg-white text-black p-6 text-center flex flex-col items-center">
-  <!-- Adjusting image style for better responsiveness -->
-  <img src={images[currentImageIndex]} alt="Menu Header" class="image-header rounded-lg mb-6 transition-opacity duration-500 ease-in-out">
-
-  <div class="menu-container">
-    <h1 class="text-4xl font-bold mb-4">Burger Menu</h1>
+<div class="min-h-screen bg-white text-black p-6 text-center flex flex-col items-center justify-center">
+  <img src={images[currentImageIndex]} alt="Menu Header" class="w-full max-h-60 object-cover rounded-lg mb-6 transition-opacity duration-500 ease-in-out">
+  
+  <div class="w-full max-w-md mx-auto">
+    <h1 class="text-3xl md:text-4xl font-bold mb-4">Burger Menu</h1>
     <div class="flex flex-col gap-4">
       {#each menuItems as item}
-        <div class="bg-gray-200 p-4 rounded-lg shadow-lg">
-          <h2 class="text-2xl font-semibold">{item.name}</h2>
+        <div class="bg-gray-200 p-4 rounded-lg shadow-lg menu-item">
+          <h2 class="text-xl font-semibold">{item.name}</h2>
           <p class="text-gray-600">{item.description}</p>
           <div class="mt-2 flex justify-between">
             <span class="text-lg font-bold">Solo: {item.priceSolo}</span>
