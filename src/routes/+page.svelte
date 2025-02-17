@@ -5,7 +5,7 @@
     { name: "BBQ Bacon Burger", priceSolo: "€7.49", priceMenu: "€10.49", description: "Smoky BBQ sauce, crispy bacon, and cheddar cheese." },
   ];
 
-  let images = ["/burger_4.jpg", "/burger_3.jpg", "/burger_1.jpg"];
+  let images = ["/burger_4.jpg", "/sandwich_1.jpg", "/burger_1.jpg"];
   let currentImageIndex = 0;
 
   function changeImage() {
