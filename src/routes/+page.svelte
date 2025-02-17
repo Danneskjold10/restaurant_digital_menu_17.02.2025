@@ -16,9 +16,10 @@
 </script>
 
 <div class="min-h-screen bg-white text-black p-6 text-center flex flex-col items-center">
-  <img src={images[currentImageIndex]} alt="Menu Header" class="w-3/4 max-h-80 object-cover rounded-lg mb-6 transition-opacity duration-500 ease-in-out">
-  
-  <div class="w-full max-w-md mx-auto">
+  <!-- Adjusting image style for better responsiveness -->
+  <img src={images[currentImageIndex]} alt="Menu Header" class="image-header rounded-lg mb-6 transition-opacity duration-500 ease-in-out">
+
+  <div class="menu-container">
     <h1 class="text-4xl font-bold mb-4">Burger Menu</h1>
     <div class="flex flex-col gap-4">
       {#each menuItems as item}
