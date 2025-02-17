@@ -35,24 +35,3 @@ html, body {
   }
 }
 
-/* Landscape Mode Adjustments */
-@media (orientation: landscape) {
-  body {
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  img {
-    max-width: 50%; /* Adjust image size */
-    max-height: 70%;
-  }
-
-  h1 {
-    font-size: 3rem;
-  }
-
-  .menu-item {
-    max-width: 40%;
-    padding: 24px;
-  }
-}
