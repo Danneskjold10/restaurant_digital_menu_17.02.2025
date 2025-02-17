@@ -5,17 +5,17 @@
     { name: "BBQ Bacon Burger", priceSolo: "€7.49", priceMenu: "€10.49", description: "Smoky BBQ sauce, crispy bacon, and cheddar cheese." },
   ];
 
-  let image = "/burger_4.jpg"; // Single image
+  let image = "/commercial4.jpg"; // Single image
 </script>
 
-<div class="flex flex-col h-screen w-full bg-white text-black">
-  <!-- Top Half: Image -->
-  <div class="h-1/2 w-full flex items-center justify-center bg-gray-100">
-    <img src={image} alt="Menu Image" class="h-full w-auto max-w-full object-contain rounded-lg shadow-lg">
+<div class="flex flex-row h-screen w-full bg-white text-black">
+  <!-- Left Side: Image -->
+  <div class="w-1/2 h-full flex items-center justify-center bg-gray-100">
+    <img src={image} alt="Menu Image" class="h-auto w-full max-h-full object-cover rounded-lg shadow-lg">
   </div>
 
-  <!-- Bottom Half: Menu List -->
-  <div class="h-1/2 w-full p-6 flex flex-col justify-center">
+  <!-- Right Side: Menu List -->
+  <div class="w-1/2 h-full p-6 flex flex-col justify-center">
     <h1 class="text-4xl font-bold mb-4 text-center">Burger Menu</h1>
 
     <!-- Menu Table -->
