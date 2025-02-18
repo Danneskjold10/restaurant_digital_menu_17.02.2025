@@ -7,7 +7,7 @@
   let textCycleTime = 10000; // Time for each cycle in milliseconds
   let currentTextIndex = 0;
   let textArray = ["Delicious", "More Delicious", "Much More Delicious"];
-  
+
   let menuItems = [
     { name: "Classic Burger", priceSolo: "€5.99", priceMenu: "€8.99" },
     { name: "Cheese Deluxe", priceSolo: "€6.99", priceMenu: "€9.99" },
@@ -80,8 +80,8 @@
   .video-text {
     position: absolute;
     top: 40%;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 10%; /* Moved a bit to the left */
+    transform: translateX(-10%);
     font-weight: bold;
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
@@ -149,12 +149,11 @@
     top: 0;
     left: 0;
     z-index: 2;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 1s ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     opacity: 0;
-    transition: opacity 2s ease-in-out;
   }
 
   /* Show menu container when it's time for the menu */
@@ -203,6 +202,13 @@
     bottom: 0;
     left: 0;
     z-index: 2;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+
+  /* Show image when menu appears */
+  .bottom-image.visible {
+    opacity: 1;
   }
 </style>
 
@@ -246,5 +252,5 @@
   </div>
 
   <!-- 🖼 Bottom Image -->
-  <img src="/commercial4.jpg" alt="Burger" class="bottom-image">
+  <img src="/commercial4.jpg" alt="Burger" class="bottom-image visible">
 {/if}
