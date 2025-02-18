@@ -30,18 +30,22 @@
   .menu {
     display: flex;
     flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
     gap: 20px;
     padding: 20px;
-    background-color: #f8f8f8; /* Single background for the entire menu */
+    background-color: #ffffff; /* Updated background color */
     height: 100vh; /* Full height for portrait display */
+    width: 100vw; /* Full width for portrait display */
     font-family: Arial, sans-serif;
+    box-sizing: border-box; /* Ensure padding doesn't overflow */
   }
 
   .menu-header {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 3rem; /* Larger font size for header */
     font-weight: bold;
-    color: #e67e22;
+    color: #e67e22; /* Orange color for header */
     margin-bottom: 20px;
   }
 
@@ -51,6 +55,8 @@
     gap: 20px;
     padding: 15px;
     border-radius: 10px;
+    width: 90%; /* Adjust width to fit screen */
+    max-width: 800px; /* Limit maximum width */
   }
 
   /* Alternate layout for the second row */
@@ -63,31 +69,38 @@
   }
 
   .item-name {
-    font-size: 1.5rem;
+    font-size: 2rem; /* Larger font size for item name */
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
 
   .item-description {
-    font-size: 1rem;
+    font-size: 1.2rem; /* Larger font size for description */
     color: #555;
     margin-bottom: 10px;
   }
 
-  .item-price {
+  .price-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
     font-size: 1.2rem;
-    color: #e67e22;
     font-weight: bold;
-  }
-
-  .item-price span {
-    display: block;
+    color: white;
     margin-bottom: 5px;
   }
 
+  .solo-price {
+    background-color: #2e7d32; /* Green for solo price */
+  }
+
+  .menu-price {
+    background-color: #d32f2f; /* Red for menu price */
+  }
+
   .item-image {
-    width: 150px;
-    height: 150px;
+    width: 200px; /* Larger image size */
+    height: 200px; /* Larger image size */
     object-fit: cover;
     border-radius: 10px;
   }
@@ -104,8 +117,8 @@
         <div class="item-name">{item.name}</div>
         <div class="item-description">{item.description}</div>
         <div class="item-price">
-          <span>Solo: {item.soloPrice}</span>
-          <span>Menu: {item.menuPrice}</span>
+          <div class="price-tag solo-price">Solo: {item.soloPrice}</div>
+          <div class="price-tag menu-price">Menu: {item.menuPrice}</div>
         </div>
       </div>
       <img class="item-image" src={item.image} alt={item.name} />
