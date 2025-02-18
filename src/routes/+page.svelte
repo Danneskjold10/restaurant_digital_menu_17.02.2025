@@ -1,175 +1,114 @@
-<script lang="ts">
-  import { onMount } from "svelte";
-
-  let showMenu = false;
-  let showVideo = true; // Start with video
-  let videoElement: HTMLVideoElement | null = null; // Reference to video
-
-  const videoDuration = 10000; // 10 seconds
-  const menuDuration = 30000; // 30 seconds
-
-  function startCycle() {
-    showVideo = true;
-    showMenu = false;
-
-    // Restart video every loop
-    if (videoElement) {
-      videoElement.currentTime = 0; // Reset video to start
-      videoElement.play(); // Play video from beginning
-    }
-
-    // After 10 sec, switch to menu
-    setTimeout(() => {
-      showVideo = false;
-      showMenu = true;
-    }, videoDuration);
-
-    // After 40 sec (10s video + 30s menu), restart cycle
-    setTimeout(startCycle, videoDuration + menuDuration);
-  }
-
-  onMount(() => {
-    videoElement = document.getElementById("promo-video") as HTMLVideoElement;
-    startCycle();
-  });
-
-  let menuItems = [
-    { name: "Classic Burger", priceSolo: "€5.99", priceMenu: "€8.99" },
-    { name: "Cheese Deluxe", priceSolo: "€6.99", priceMenu: "€9.99" },
-    { name: "BBQ Bacon Burger", priceSolo: "€7.49", priceMenu: "€10.49" },
-    { name: "Veggie Burger", priceSolo: "€5.49", priceMenu: "€8.49" },
-    { name: "Chicken Burger", priceSolo: "€6.49", priceMenu: "€9.49" },
-    { name: "Spicy Chicken Burger", priceSolo: "€6.99", priceMenu: "€9.99" },
-    { name: "Fish Burger", priceSolo: "€7.29", priceMenu: "€10.29" }
+<script>
+  // Define your menu items
+  const menuItems = [
+    {
+      name: "Classic Burger",
+      description: "Juicy beef patty with fresh lettuce, tomato, and cheese.",
+      soloPrice: "$9.99",
+      menuPrice: "$12.99",
+      image: "/burger_1112.png", // Same image for all items
+    },
+    {
+      name: "Cheeseburger Deluxe",
+      description: "Double beef patty with melted cheddar and special sauce.",
+      soloPrice: "$12.99",
+      menuPrice: "$15.99",
+      image: "/burger_1112.png", // Same image for all items
+    },
+    {
+      name: "Spicy Burger",
+      description: "Spicy chicken patty with jalapeños and chipotle mayo.",
+      soloPrice: "$11.99",
+      menuPrice: "$14.99",
+      image: "/burger_1112.png", // Same image for all items
+    },
   ];
 </script>
 
 <style>
-  /* Fullscreen Layout */
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
+  /* Global styles for the menu */
+  .menu {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: #fff;
-    overflow: hidden;
-  }
-
-  /* 🎥 Fullscreen Video */
-  .video-container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-  }
-
-  .video-container.show {
-    opacity: 1;
-  }
-
-  .video-container video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* 📜 Menu List */
-  .menu-container {
-    width: 100%;
-    text-align: left;
+    gap: 20px;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.95);
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
+    background-color: #f8f8f8; /* Single background for the entire menu */
+    height: 100vh; /* Full height for portrait display */
+    font-family: Arial, sans-serif;
   }
 
-  .menu-container.show {
-    opacity: 1;
-  }
-
-  /* 📝 Headers */
   .menu-header {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    font-size: 2rem;
+    text-align: center;
+    font-size: 2.5rem;
     font-weight: bold;
-    padding-bottom: 10px;
-    border-bottom: 2px solid black;
+    color: #e67e22;
     margin-bottom: 20px;
-    text-transform: uppercase;
   }
 
-  .menu-header span {
-    width: 32%;
-    text-align: left;
-  }
-
-  /* 🍔 Menu Items */
   .menu-item {
     display: flex;
-    justify-content: space-between;
-    padding: 10px;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    border-radius: 10px;
+  }
+
+  /* Alternate layout for the second row */
+  .menu-item:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+
+  .item-details {
+    flex: 1;
+  }
+
+  .item-name {
     font-size: 1.5rem;
-    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+    margin-bottom: 5px;
   }
 
-  .menu-item span {
-    width: 32%;
-    text-align: left;
+  .item-description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
   }
 
-  /* 🖼 Bottom Image */
-  .bottom-image {
-    width: 100%;
-    height: 60vh;
+  .item-price {
+    font-size: 1.2rem;
+    color: #e67e22;
+    font-weight: bold;
+  }
+
+  .item-price span {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .item-image {
+    width: 150px;
+    height: 150px;
     object-fit: cover;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-  }
-
-  .bottom-image.show {
-    opacity: 1;
+    border-radius: 10px;
   }
 </style>
 
-<!-- 🎥 Show Video First -->
-<div class="video-container {showVideo ? 'show' : ''}">
-  <video id="promo-video" autoplay muted playsinline>
-    <source src="/commercial4.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
+<div class="menu">
+  <!-- Burger Header -->
+  <div class="menu-header">Burgers</div>
 
-<!-- 📜 Show Menu After 10s -->
-<div class="menu-container {showMenu ? 'show' : ''}">
-  <div class="menu-header">
-    <span>Burger</span>
-    <span>Solo</span>
-    <span>Menu</span>
-  </div>
-
-  {#each menuItems as item}
+  <!-- Menu Items -->
+  {#each menuItems as item, index}
     <div class="menu-item">
-      <span>{item.name}</span>
-      <span>{item.priceSolo}</span>
-      <span>{item.priceMenu}</span>
+      <div class="item-details">
+        <div class="item-name">{item.name}</div>
+        <div class="item-description">{item.description}</div>
+        <div class="item-price">
+          <span>Solo: {item.soloPrice}</span>
+          <span>Menu: {item.menuPrice}</span>
+        </div>
+      </div>
+      <img class="item-image" src={item.image} alt={item.name} />
     </div>
   {/each}
 </div>
-
-<!-- 🖼 Bottom Image (Appears with Menu) -->
-<img src="/commercial4.jpg" alt="Burger" class="bottom-image {showMenu ? 'show' : ''}">
