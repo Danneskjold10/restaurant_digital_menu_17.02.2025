@@ -2,11 +2,36 @@
   import { onMount } from "svelte";
 
   let showMenu = false;
-  let cycleCount = 0;
-  let text = "";
-  let textCycleTime = 10000; // Time for each cycle in milliseconds
-  let currentTextIndex = 0;
-  let textArray = ["Delicious", "More Delicious", "Much More Delicious"];
+  let showVideo = true; // Start with video
+  let videoElement: HTMLVideoElement | null = null; // Reference to video
+
+  const videoDuration = 10000; // 10 seconds
+  const menuDuration = 30000; // 30 seconds
+
+  function startCycle() {
+    showVideo = true;
+    showMenu = false;
+
+    // Restart video every loop
+    if (videoElement) {
+      videoElement.currentTime = 0; // Reset video to start
+      videoElement.play(); // Play video from beginning
+    }
+
+    // After 10 sec, switch to menu
+    setTimeout(() => {
+      showVideo = false;
+      showMenu = true;
+    }, videoDuration);
+
+    // After 40 sec (10s video + 30s menu), restart cycle
+    setTimeout(startCycle, videoDuration + menuDuration);
+  }
+
+  onMount(() => {
+    videoElement = document.getElementById("promo-video") as HTMLVideoElement;
+    startCycle();
+  });
 
   let menuItems = [
     { name: "Classic Burger", priceSolo: "€5.99", priceMenu: "€8.99" },
@@ -17,37 +42,10 @@
     { name: "Spicy Chicken Burger", priceSolo: "€6.99", priceMenu: "€9.99" },
     { name: "Fish Burger", priceSolo: "€7.29", priceMenu: "€10.29" }
   ];
-
-  // Cycle between video and menu list every 10 seconds
-  onMount(() => {
-    // Set an initial delay to ensure video loads immediately
-    let videoInterval = setInterval(() => {
-      cycleCount++;
-      showMenu = !showMenu;
-
-      // Switch back to the video after 10 seconds
-      if (cycleCount >= 2) {
-        cycleCount = 0;
-        showMenu = false;
-      }
-    }, textCycleTime); // 10 seconds for video/menu switch
-
-    let textInterval = setInterval(() => {
-      if (!showMenu) {
-        // Display the current text and move to the next
-        text = textArray[currentTextIndex];
-
-        currentTextIndex++;
-        if (currentTextIndex >= textArray.length) {
-          currentTextIndex = 0;
-        }
-      }
-    }, 2000); // Change text every 2 seconds
-  });
 </script>
 
 <style>
-  /* Full screen layout */
+  /* Fullscreen Layout */
   html, body {
     margin: 0;
     padding: 0;
@@ -68,7 +66,12 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 1;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .video-container.show {
+    opacity: 1;
   }
 
   .video-container video {
@@ -77,70 +80,7 @@
     object-fit: cover;
   }
 
-  /* Text in front of the video */
-  .video-text {
-    position: absolute;
-    top: 40%;
-    left: 10%; /* Moved a bit to the left */
-    transform: translateX(-10%);
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3rem;
-    animation: slideText 10s ease-in-out infinite, textAnimation 10s ease-in-out infinite;
-  }
-
-  /* Animation for text change */
-  @keyframes slideText {
-    0%, 100% {
-      opacity: 0;
-    }
-    33% {
-      opacity: 1;
-    }
-    66% {
-      opacity: 1;
-    }
-  }
-
-  /* Text styling for each phase */
-  @keyframes textAnimation {
-    0%, 100% {
-      transform: scale(1);
-      color: #fff;
-    }
-    33% {
-      transform: scale(1.1);
-      color: #f39c12;
-    }
-    66% {
-      transform: scale(1.2);
-      color: #e74c3c;
-    }
-  }
-
-  /* Text Styles */
-  .video-text span.delicious {
-    font-size: 3rem;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .video-text span.more-delicious {
-    font-size: 4rem;
-    font-family: 'Verdana', sans-serif;
-  }
-  
-  .video-text span.much-more-delicious {
-    font-size: 5rem;
-    font-family: 'Georgia', serif;
-    font-weight: bolder;
-  }
-
-  /* 📜 Menu List (TOP) */
+  /* 📜 Menu List */
   .menu-container {
     width: 100%;
     text-align: left;
@@ -149,16 +89,11 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 2;
-    transition: opacity 1s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
     opacity: 0;
+    transition: opacity 1s ease-in-out;
   }
 
-  /* Show menu container when it's time for the menu */
-  .menu-container.visible {
+  .menu-container.show {
     opacity: 1;
   }
 
@@ -176,7 +111,7 @@
   }
 
   .menu-header span {
-    width: 32%; /* Make space for the columns */
+    width: 32%;
     text-align: left;
   }
 
@@ -191,10 +126,10 @@
 
   .menu-item span {
     width: 32%;
-    text-align: left; /* Left-align text */
+    text-align: left;
   }
 
-  /* 🖼 Image at the bottom */
+  /* 🖼 Bottom Image */
   .bottom-image {
     width: 100%;
     height: 60vh;
@@ -202,56 +137,39 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    z-index: 2;
     opacity: 0;
     transition: opacity 1s ease-in-out;
   }
 
-  /* Show image when menu appears */
-  .bottom-image.visible {
+  .bottom-image.show {
     opacity: 1;
   }
 </style>
 
 <!-- 🎥 Show Video First -->
-{#if !showMenu}
-  <div class="video-container">
-    <video autoplay muted playsinline>
-      <source src="/commercial4.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-
-  <!-- Text Over the Video -->
-  <div class="video-text">
-    {#if text === 'Delicious'}
-      <span class="delicious">{text}</span>
-    {:else if text === 'More Delicious'}
-      <span class="more-delicious">{text}</span>
-    {:else if text === 'Much More Delicious'}
-      <span class="much-more-delicious">{text}</span>
-    {/if}
-  </div>
-{/if}
+<div class="video-container {showVideo ? 'show' : ''}">
+  <video id="promo-video" autoplay muted playsinline>
+    <source src="/commercial4.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
 
 <!-- 📜 Show Menu After 10s -->
-{#if showMenu}
-  <div class="menu-container visible">
-    <div class="menu-header">
-      <span>Burger</span>
-      <span>Solo</span>
-      <span>Menu</span>
-    </div>
-
-    {#each menuItems as item}
-      <div class="menu-item">
-        <span>{item.name}</span>
-        <span>{item.priceSolo}</span>
-        <span>{item.priceMenu}</span>
-      </div>
-    {/each}
+<div class="menu-container {showMenu ? 'show' : ''}">
+  <div class="menu-header">
+    <span>Burger</span>
+    <span>Solo</span>
+    <span>Menu</span>
   </div>
 
-  <!-- 🖼 Bottom Image -->
-  <img src="/commercial4.jpg" alt="Burger" class="bottom-image visible">
-{/if}
+  {#each menuItems as item}
+    <div class="menu-item">
+      <span>{item.name}</span>
+      <span>{item.priceSolo}</span>
+      <span>{item.priceMenu}</span>
+    </div>
+  {/each}
+</div>
+
+<!-- 🖼 Bottom Image (Appears with Menu) -->
+<img src="/commercial4.jpg" alt="Burger" class="bottom-image {showMenu ? 'show' : ''}">
