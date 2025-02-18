@@ -20,6 +20,7 @@
 
   // Cycle between video and menu list every 10 seconds
   onMount(() => {
+    // Set an initial delay to ensure video loads immediately
     let videoInterval = setInterval(() => {
       cycleCount++;
       showMenu = !showMenu;
